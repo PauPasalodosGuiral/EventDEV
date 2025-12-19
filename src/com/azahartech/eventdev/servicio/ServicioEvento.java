@@ -52,6 +52,11 @@ public class ServicioEvento {
         return resultado;
     }
 
+    public void mostrarEventosFiltrados(ArrayList<Evento> eventosFiltrados) {
+        for (Evento eventosFiltrado : eventosFiltrados) {
+            eventosFiltrado.mostrarInformacion();
+        }
+    }
 
 
 /*

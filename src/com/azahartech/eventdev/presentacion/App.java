@@ -56,8 +56,10 @@ public class App {
                         servicioEvento.registrarEvento(new Evento("Evento4",LocalDate.of(2024,01,01),recinto,10));
                         servicioEvento.registrarEvento(new Evento("Evento5",LocalDate.of(2027,01,01),recinto,10));
 
-                        servicioEvento.filtrarPorTipo("Evento3");
+                        System.out.println(servicioEvento.filtrarPorTipo("Evento3").toString());
 
+
+                        //servicioEvento.mostrarEventosFiltrados(servicioEvento.filtrarPorTipo("Evento3"));
 
                         break;
                     case 2:
