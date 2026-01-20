@@ -1,64 +1,78 @@
 package com.azahartech.eventdev.servicio;
 
+import com.azahartech.eventdev.datos.RepositorioGenerico;
 import com.azahartech.eventdev.modelo.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.HashMap;
 
 
 public class ServicioEvento {
     private Evento eventoDePrueba;
     private Usuario usuarioDePrueba;
     //private Evento[] carteleraDestacados;
-    private ArrayList<Evento> listaEventos;
-
+    //private ArrayList<Evento> listaEventos;
+    private RepositorioGenerico<Evento> repositorio = new RepositorioGenerico<>();
+    private HashMap<String, Evento> mapaEventos = new HashMap<>();
 
     public ServicioEvento() {
         Recinto recintoDePrueba = new Recinto("mercandona", "Calle Mayor", 100);
         DetallePago detallePagoDePrueba = new DetallePago("credito","1122334455667788");
-        this.eventoDePrueba = new Evento("Comprar", LocalDate.of(2025, 12, 01), recintoDePrueba, 10);
-        this.usuarioDePrueba = new Usuario("pau","pau@gmail.com", detallePagoDePrueba);
+        //this.eventoDePrueba = new Evento("Comprar", LocalDate.of(2025, 12, 01), recintoDePrueba, 10);
+        //this.usuarioDePrueba = new Usuario("pau","pau@gmail.com", detallePagoDePrueba);
         //carteleraDestacados = new Evento[5];
-        this.listaEventos = new ArrayList<>();
+        //this.listaEventos = new ArrayList<>();
+
     }
+    public long contarEventosPorAforo(int aforoMinimo) {
+        return mapaEventos.values().stream()
+                .filter(evento -> evento.getRecinto().getAforoMaximo() > aforoMinimo).count();
+    }
+
     public void registrarEvento(Evento evento) {
-        listaEventos.add(evento);
+        mapaEventos.put(evento.getId(), evento);
     }
-    public void eliminarEventosPasados() {
-        Iterator<Evento> iterator = this.listaEventos.iterator();
-        while (iterator.hasNext()) {
-            Evento eventoActual =  iterator.next();
-            if (eventoActual.getFechaEvento().isBefore(LocalDate.now())) {
-                iterator.remove();
-                System.out.println("Eliminado evento caducado: [" + eventoActual.getNombreEvento() +"].");
+
+    public void mostrarCatalogo() {
+        for (Evento evento : mapaEventos.values()) {
+            evento.mostrarInformacion();
+        }
+    }
+
+    public Evento buscarEventoPorId(String id) {
+        return mapaEventos.get(id);
+    }
+
+    public void eliminarEvento(String id) {
+        mapaEventos.remove(id);
+    }
+
+    public ArrayList<Evento> obtenerEventosConAforoMayorA(int capacidad) {
+
+        ArrayList<Evento> listaResultado = new ArrayList<>();
+                repositorio.listar().stream()
+                        .filter(evento -> evento.getRecinto().getAforoMaximo() > capacidad)
+                        .forEach(evento -> listaResultado.add(evento));
+         return listaResultado;
+    }
+
+    public long contarEventosBeneficos() {
+        return repositorio.listar().stream()
+                .filter(evento -> evento.getEsBenefico() == true)
+                .count();
+    }
+    /*public void eliminarEventosPasados() {
+            Iterator<Evento> iterator = this.listaEventos.iterator();
+            while (iterator.hasNext()) {
+                Evento eventoActual =  iterator.next();
+                if (eventoActual.getFechaEvento().isBefore(LocalDate.now())) {
+                    iterator.remove();
+                    System.out.println("Eliminado evento caducado: [" + eventoActual.getNombreEvento() +"].");
+                }
             }
-        }
-
-    }
-    public void mostrarTodoElCatalogo() {
-        for (Evento listaEvento : listaEventos) {
-            listaEvento.mostrarInformacion();
-        }
-    }
-
-    public ArrayList<Evento> filtrarPorTipo(String nombreBuscado) {
-        ArrayList<Evento> resultado = new ArrayList<>();
-        for (Evento evento : this.listaEventos) {
-            if (nombreBuscado.equals(evento.getNombreEvento())) {
-                resultado.add(evento);
-            }
-        }
-        return resultado;
-    }
-
-    public void mostrarEventosFiltrados(ArrayList<Evento> eventosFiltrados) {
-        for (Evento eventosFiltrado : eventosFiltrados) {
-            eventosFiltrado.mostrarInformacion();
-        }
-    }
-
-
+        }*/
 /*
     public boolean añadirdestacado(Evento evento, int posicion) {
         posicion = posicion -1;

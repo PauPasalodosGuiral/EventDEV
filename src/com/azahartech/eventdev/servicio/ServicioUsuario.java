@@ -1,31 +1,42 @@
 package com.azahartech.eventdev.servicio;
 
+import com.azahartech.eventdev.datos.RepositorioGenerico;
 import com.azahartech.eventdev.modelo.Usuario;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ServicioUsuario {
-    private ArrayList<Usuario> listaUsuarios;
+    //private ArrayList<Usuario> listaUsuarios;
+    private RepositorioGenerico<Usuario> repositorio = new RepositorioGenerico<>();
+    private HashMap<String, Usuario> mapaUsuarios;
 
     public ServicioUsuario() {
-        this.listaUsuarios =new ArrayList<>();
+        this.mapaUsuarios = new HashMap<>();
     }
 
     public void registrarUsuario(Usuario usuario) {
-        listaUsuarios.add(usuario);
+        if (mapaUsuarios.containsKey(usuario.getEmail())){
+            System.err.println("ERROR: ESTE EMAIL YA SE ESTA USANDO EN OTRO USUARIO");
+        } else {
+            mapaUsuarios.put(usuario.getEmail(), usuario);
+        }
     }
     public Usuario buscarUsuarioPorEmail(String email) {
-        Usuario usuarioTemporal = new Usuario(null,null,null);
-        boolean validacion = false;
-        for (Usuario usuario : listaUsuarios) {
-            if (usuario.getEmail().equals(email)) {
-                usuario = usuarioTemporal;
-            }
-        }
-        if (validacion) {
-            return usuarioTemporal;
-        } else {
-            return null;
-        }
+        return this.mapaUsuarios.get(email);
+    }
+    public Usuario buscarUsuarioPorNombre(String nombre) {
+            return mapaUsuarios.values()
+                    .stream()
+                    .filter(u -> u.getNombreUsuario().equals(nombre))
+                    .findFirst()
+                    .orElse(null);
+    }
+
+    public void imprimirNombresUsuariosVip() {
+        repositorio.listar()
+                .stream().filter(usuario -> usuario.getEsVip() == true)
+                .map(usuario -> usuario.getNombreUsuario())
+                .forEach(nombre -> System.out.println(nombre));
     }
 }

@@ -7,13 +7,23 @@ public class Usuario {
     private String nombre;
     protected String email;
     private DetallePago detallePago;
+    private boolean esVip;
 
-    public Usuario(String nombre, String email, DetallePago detallePago) {
+    public Usuario(String nombre, String email, DetallePago detallePago, boolean esVip) {
         Random random = new Random();
         this.nombre = nombre;
         this.email = email;
         this.detallePago = detallePago;
+        this.esVip = esVip;
         id = UUID.randomUUID().toString();
+    }
+
+    public boolean getEsVip() {
+        return esVip;
+    }
+
+    public void setEsVip(boolean esVip) {
+        this.esVip = esVip;
     }
 
     public String getNombreUsuario() {
@@ -38,5 +48,6 @@ public class Usuario {
         System.out.printf("Nombre usuario: %s%n", nombre);
         System.out.printf("Email: %s%n", email);
         System.out.printf("ID: %s%n", id);
+        System.out.printf("Es VIP: %s%n", esVip);
     }
 }
