@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class ServicioUsuario {
     //private ArrayList<Usuario> listaUsuarios;
-    private RepositorioGenerico<Usuario> repositorio = new RepositorioGenerico<>();
+    //private RepositorioGenerico<Usuario> repositorio = new RepositorioGenerico<>();
     private HashMap<String, Usuario> mapaUsuarios;
 
     public ServicioUsuario() {
@@ -34,7 +34,7 @@ public class ServicioUsuario {
     }
 
     public void imprimirNombresUsuariosVip() {
-        repositorio.listar()
+        mapaUsuarios.values()
                 .stream().filter(usuario -> usuario.getEsVip() == true)
                 .map(usuario -> usuario.getNombreUsuario())
                 .forEach(nombre -> System.out.println(nombre));

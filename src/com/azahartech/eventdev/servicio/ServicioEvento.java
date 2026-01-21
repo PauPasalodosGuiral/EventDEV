@@ -15,7 +15,7 @@ public class ServicioEvento {
     private Usuario usuarioDePrueba;
     //private Evento[] carteleraDestacados;
     //private ArrayList<Evento> listaEventos;
-    private RepositorioGenerico<Evento> repositorio = new RepositorioGenerico<>();
+    //private RepositorioGenerico<Evento> repositorio = new RepositorioGenerico<>();
     private HashMap<String, Evento> mapaEventos = new HashMap<>();
 
     public ServicioEvento() {
@@ -57,14 +57,14 @@ public class ServicioEvento {
     public ArrayList<Evento> obtenerEventosConAforoMayorA(int capacidad) {
 
         ArrayList<Evento> listaResultado = new ArrayList<>();
-                repositorio.listar().stream()
+                mapaEventos.values().stream()
                         .filter(evento -> evento.getRecinto().getAforoMaximo() > capacidad)
                         .forEach(evento -> listaResultado.add(evento));
          return listaResultado;
     }
 
     public long contarEventosBeneficos() {
-        return repositorio.listar().stream()
+        return mapaEventos.values().stream()
                 .filter(evento -> evento.getEsBenefico() == true)
                 .count();
     }
