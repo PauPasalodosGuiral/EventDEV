@@ -2,7 +2,7 @@ package com.azahartech.eventdev.modelo;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Evento {
+public abstract class Evento {
     private String nombre;
     private LocalDate fecha;
     private Recinto recinto;
@@ -11,13 +11,12 @@ public class Evento {
     private String id;
 
     public Evento(String nombre, LocalDate fecha, Recinto recinto, double precioEntrada, boolean esBenefico) {
-
         this.nombre = nombre;
         this.fecha = fecha;
         this.recinto = recinto;
         this.precioEntrada = precioEntrada;
         this.esBenefico = esBenefico;
-        this.id = UUID.randomUUID().toString();
+        this.id = "EVT-" + fecha.getYear() + "-" + UUID.randomUUID().toString().substring(0,3).toUpperCase();
     }
 
     public boolean getEsBenefico() {
@@ -46,6 +45,24 @@ public class Evento {
     }
     public  void registrarVenta(int cantidad){
         System.out.println("Se ha registrado una nueva venta");
+    }
+
+    public final String obtenerCodigoReferencia() {
+        String codigo = "REF-" + id +
+                "-NOM-" +
+                nombre;
+        return codigo;
+    }
+
+
+    public abstract double calcularCosteOperativo();
+
+    public final double calcularPrecioVentaRecomendado() {
+        double resultado;
+        double  margenBeneficio = 0.20;//20%
+        resultado = calcularCosteOperativo() / getRecinto().getAforoMaximo();
+        resultado = resultado + (resultado * margenBeneficio);
+        return resultado;
     }
 
     public void mostrarInformacion() {

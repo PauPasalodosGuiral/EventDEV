@@ -2,6 +2,7 @@ package com.azahartech.eventdev.servicio;
 
 import com.azahartech.eventdev.datos.RepositorioGenerico;
 import com.azahartech.eventdev.modelo.*;
+import com.azahartech.eventdev.util.UtilidadValidacion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,7 +33,11 @@ public class ServicioEvento {
     }
 
     public void registrarEvento(Evento evento) {
-        mapaEventos.put(evento.getId(), evento);
+        if (UtilidadValidacion.esCodigoEventoValido(evento.getId())) {
+            mapaEventos.put(evento.getId(), evento);
+        } else {
+            System.err.println("ID NO VALIDADA");
+        }
     }
 
     public void mostrarCatalogo() {
