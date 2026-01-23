@@ -18,6 +18,14 @@ public class ServicioEvento {
     //private RepositorioGenerico<Evento> repositorio = new RepositorioGenerico<>();
     private HashMap<String, Evento> mapaEventos = new HashMap<>();
 
+    public Evento partido1;
+    public Evento partido2;
+
+    public Evento concierto1;
+    public Evento concierto2;
+
+    private Recinto recinto1 = new Recinto("estdio","Castellon", 1000);
+
     public ServicioEvento() {
         Recinto recintoDePrueba = new Recinto("mercandona", "Calle Mayor", 100);
         DetallePago detallePagoDePrueba = new DetallePago("credito","1122334455667788");
@@ -25,8 +33,32 @@ public class ServicioEvento {
         //this.usuarioDePrueba = new Usuario("pau","pau@gmail.com", detallePagoDePrueba);
         //carteleraDestacados = new Evento[5];
         //this.listaEventos = new ArrayList<>();
+        partido1 = new Partido("Barça-Madrid", LocalDate.now(), recinto1,100,false, "Barça", "Madrid",1000,200);
+        partido2 = new Partido("Vila-Castellon", LocalDate.now(), recinto1,100,false, "Vila", "castellon",1000,200);
+        concierto1 = new Concierto("MiloJ",LocalDate.now(),recinto1,100,"Drums",false,1000);
+        concierto2 = new Concierto("BonJouvi",LocalDate.now(),recinto1,100,"Drums",false,1000);
+
+        mapaEventos.put(partido1.getId(), partido1);
+        mapaEventos.put(partido2.getId(), partido2);
+        mapaEventos.put(concierto1.getId(), concierto1);
+        mapaEventos.put(concierto2.getId(), concierto2);
 
     }
+
+    public void generarInformeFinanciero() {
+        mapaEventos.values().forEach(evento ->
+                System.out.printf(
+                        "Evento: %s%n" +
+                                "\tCoste operativo: %10.2f EUR%n" +
+                                "\tPrecio sugerido: %10.2f EUR%n%n",
+                        evento.getNombreEvento(),
+                        evento.calcularCosteOperativo(),
+                        evento.calcularPrecioVentaRecomendado()
+                ));
+    }
+
+
+
     public long contarEventosPorAforo(int aforoMinimo) {
         return mapaEventos.values().stream()
                 .filter(evento -> evento.getRecinto().getAforoMaximo() > aforoMinimo).count();

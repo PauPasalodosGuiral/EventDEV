@@ -15,7 +15,7 @@ public class Concierto extends Evento {
 
     @Override
     public double calcularCosteOperativo() {
-        return GASTOS_FIJOS + costeMontaje;
+        return (GASTOS_FIJOS + costeMontaje);
     }
 
     public String getBandaPrincipal() {

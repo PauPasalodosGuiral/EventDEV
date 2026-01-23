@@ -19,7 +19,7 @@ public class Partido extends Evento {
 
     @Override
     public double calcularCosteOperativo() {
-        return GASTOS_FIJOS + costeSeguridad + costeArbitraje;
+        return (GASTOS_FIJOS + costeSeguridad + costeArbitraje);
     }
 
     public String getEquipoVisitante() {
